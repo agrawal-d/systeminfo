@@ -92,25 +92,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkTextView" id="info_box">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="margin_left">5</property>
-            <property name="margin_right">5</property>
-            <property name="margin_top">5</property>
-            <property name="margin_bottom">5</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
-            <property name="editable">False</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">2</property>
-            <property name="width">10</property>
-            <property name="height">7</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -151,6 +132,35 @@
           <packing>
             <property name="left_attach">9</property>
             <property name="top_attach">9</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
+            <property name="margin_top">5</property>
+            <property name="margin_bottom">5</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkTextView" id="info_box">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+                <property name="hscroll_policy">natural</property>
+                <property name="vscroll_policy">natural</property>
+                <property name="editable">False</property>
+                <property name="monospace">True</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+            <property name="width">10</property>
+            <property name="height">7</property>
           </packing>
         </child>
       </object>

@@ -10,7 +10,7 @@ pub mod ui {
     use super::config;
     use super::syscalls;
     use gtk::prelude::*;
-    use gtk::{main_quit, Builder, ComboBoxText, ComboBoxTextExt, TextView};
+    use gtk::{main_quit, Builder, ComboBoxText, ComboBoxTextExt, TextView, TextViewExt, TextBufferExt};
 
     pub fn app_ui() {
         let main_window_path = "src/main.glade";
@@ -33,6 +33,9 @@ pub mod ui {
             println!("Changed {}", choice);
             let cfg =&process_config[&choice]; 
             let syscall_result = syscalls::exec_process(cfg.name, cfg.args.as_ref());
+            let buffer = TextViewExt::get_buffer(&output_box).unwrap();
+            TextBufferExt::set_text(&buffer, syscall_result.as_str());
+            TextViewExt::set_buffer(&output_box,Some(&buffer));
         });
         window.show_all();
         window.connect_destroy(|_| {
@@ -61,6 +64,8 @@ pub mod config {
     pub fn get_process_config<'a>() -> HashMap<String, ProcessConfig<'a>> {
         let mut config = HashMap::new();
         config.insert("CPU".to_string(), create_config("lscpu", None));
+        config.insert("Hardware".to_string(), create_config("lshw", None));
+        config.insert("Network".to_string(), create_config("ifconfig", Some(vec!["-a"])));
         config
     }
 }
@@ -68,13 +73,14 @@ pub mod config {
 pub mod syscalls {
     use std::process::Command;
     use std::str;
-    pub fn exec_process(name: &str, args: Option<Vec<&str>>) {
+    pub fn exec_process<'a>(name: &str, args: Option<&Vec<&str>>) ->String{
+        let empty_vec = Vec::<&str>::new();
         let definite_args = match args {
             Some(x) => x,
-            None => Vec::new(),
+            None => &empty_vec,
         };
         let buf = Command::new(name)
-            .args(&definite_args)
+            .args(definite_args)
             .output()
             .expect("Failed to execute command")
             .stdout;
@@ -83,5 +89,6 @@ pub mod syscalls {
             Err(e) => panic!("Faild to parse UTF-8 STDOUT to string slice {}", e),
         };
         println!("{}", output);
+        output.to_string()
     }
 }
