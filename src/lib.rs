@@ -8,7 +8,7 @@ pub mod ui {
     use gtk::{Application, ApplicationWindow, Builder, Button, ComboBoxText, ComboBoxTextExt};
 
     pub fn app_ui() {
-        let main_window_path = "main.glade";
+        let main_window_path = "src/main.glade";
 
         if gtk::init().is_err() {
             println!("Failed to initialize GTK.");
@@ -21,6 +21,9 @@ pub mod ui {
         for item in categories.iter() {
             ComboBoxTextExt::append(&choice_picker, Some("info_choices"), item);
         }
+        choice_picker.connect_changed(|item| {
+            println!("Changed {}",item.get_active_text().unwrap());
+        });
         window.show_all();
         gtk::main();
     }
