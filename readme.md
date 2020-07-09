@@ -3,7 +3,7 @@
 Seek system information, by aggregating the outputs of several popular UNIX system
 information commands in a convenient GTK based user interface.
 
-![User Interface screen-shot](ui-screenshot.png);
+![User Interface screen-shot](ui-screenshot.png)
 
 This application is a work in progress, and as such, is not suitable for regular use.
 
